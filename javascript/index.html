@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Check Grade</title>
+    </head>
+    <body>
+        <input type="number" name="marks" id="marks"
+            placeholder="Enter your marks">
+        <span>Your Grade is: <span id="grade"></span></span>
+        <br><br>
+        <button type="submit" id="checkGrade">Check</button>
+        <script>
+    document.getElementById('checkGrade').addEventListener('click', function() {
+    const passMarks = 24;
+    const fullMarks = 60;
+    let obtainedMarks = parseInt(document.getElementById('marks').value);
+    let grade = "";
+
+    if (obtainedMarks > fullMarks) {
+        grade = "Invalid marks! Please enter a value between 0 and 60.";
+    } 
+    else if (obtainedMarks >= 55) {
+        grade = "A+";
+    } 
+    else if (obtainedMarks >= 50) {
+        grade = "A";
+    } 
+    else if (obtainedMarks >= 45) {
+        grade = "B+";
+    } 
+    else if (obtainedMarks >= 35) {
+        grade = "B";
+    } 
+    else if (obtainedMarks >= 30) {
+        grade = "C+";
+    } 
+    else if (obtainedMarks >= 25) {
+        grade = "C";
+    } 
+    else {
+        grade = "You are Failed. Better Luck Next Time";
+    }
+
+    document.getElementById('grade').textContent = grade;
+});
+
+   </script>
+    </body>
+</html>
