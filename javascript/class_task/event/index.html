@@ -1,54 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Walk/Run Animation</title>
-        <style>
-    body {
-      margin: 0;
-      overflow: hidden;
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walk/Run Animation Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
 
-    }
-  .sky {
-    background-image: url('sky.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 100vw;
-    height: 100vh;
-}
-    .container {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-    }
-    .ground {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      height: 100px;
-        background-image: url(ground.png);
-    }
-    .character {
-      position: absolute;
-      bottom:168px;
-      width: 50px;
-      height: 75px;
-      background-size: cover;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
-  </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="sky"></div>
-            <div class="character" id="character">
-                <img src="character.png" alt height="150">
-            </div>
-            <div class="ground"></div>
-        </div>
-        <script src="script.js"></script>
-    </body>
+        .sky {
+            background-image: url('sky.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .ground {
+            position: absolute;
+            bottom:-20px;
+            width: 200%;
+            height: 100px;
+            background-image: url('ground.png');
+            background-repeat: repeat-x;
+            animation: groundMove 4s linear infinite;
+        }
+
+        @keyframes groundMove {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        .character {
+            position: absolute;
+            bottom: 180px;
+            width: 35px;
+            height: 60px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .obstacle {
+            position: absolute;
+            bottom: 168px;
+            width: 50px;
+            height: 50px;
+        }
+
+        .obstacle img {
+            width: 100%;
+            height: 100%;
+            animation: rotateObstacle 1s linear infinite;
+        }
+
+        @keyframes rotateObstacle {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes obstacleMove {
+            from {
+                left: 100%;
+            }
+            to {
+                left: -50px;
+            }
+        }
+
+        .power-up {
+            position: absolute;
+            bottom: 168px;
+            width: 30px;
+            height: 30px;
+            background-color: gold;
+            border-radius: 50%;
+            animation: obstacleMove 4s linear infinite;
+        }
+
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 20px;
+            color: white;
+            z-index: 100;
+        }
+
+        @keyframes jump {
+            0% { bottom: 168px; }
+            50% { bottom: 268px; }
+            100% { bottom: 168px; }
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sky"></div>
+      <div id="score">Score: 0</div>
+      <div class="character" id="character">
+        <img src="chr1.gif" alt="Character" height="150">
+      </div>
+      <div class="ground"></div>
+    </div>
+    <audio id="background-music" loop>
+      <source src="background.wav" type="audio/mpeg">
+    </audio>
+    <script src="script.js"></script>
+  </body>
 </html>
