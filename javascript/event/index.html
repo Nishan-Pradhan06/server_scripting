@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Walk/Run Animation Game</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+
+      .menu-screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .menu-screen h1 {
+        color: white;
+        font-size: 48px;
+        margin-bottom: 50px;
+      }
+
+      .menu-screen button {
+        padding: 15px 30px;
+        font-size: 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: white;
+        background-color: #007bff;
+        transition: 0.3s;
+      }
+
+      .menu-screen button:hover {
+        background-color: #0056b3;
+      }
+
+      .sky {
+        background-image: url('sky.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        width: 100vw;
+        height: 100vh;
+      }
+
+      .container {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden;
+        display: none; /* Hidden initially */
+      }
+
+      .ground {
+        position: absolute;
+        bottom: -20px;
+        width: 200%;
+        height: 100px;
+        background-image: url('assets/ground.png');
+        background-repeat: repeat-x;
+        animation: groundMove 4s linear infinite;
+      }
+
+      @keyframes groundMove {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      .character {
+        position: absolute;
+        bottom: 168px;
+        width: 35px;
+        height: 60px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .obstacle {
+        position: absolute;
+        bottom: 168px;
+        width: 50px;
+        height: 50px;
+      }
+
+      .obstacle img {
+        width: 100%;
+        height: 100%;
+        animation: rotateObstacle 1s linear infinite;
+      }
+
+      @keyframes rotateObstacle {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes obstacleMove {
+        from {
+          left: 100%;
+        }
+        to {
+          left: -50px;
+        }
+      }
+
+      .power-up {
+        position: absolute;
+        bottom: 168px;
+        width: 30px;
+        height: 30px;
+        background-color: gold;
+        border-radius: 50%;
+        animation: obstacleMove 4s linear infinite;
+      }
+
+      #score {
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        font-size: 20px;
+        color: white;
+        z-index: 100;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Main Menu Screen -->
+    <div class="menu-screen" id="menu-screen">
+      <h1>Walk/Run Animation Game</h1>
+      <button id="play-button">Play</button>
+      <button id="settings-button">Settings</button>
+      <button id="high-scores-button">High Scores</button>
+    </div>
+
+    <!-- Game Screen -->
+    <div class="container" id="game-container">
+      <div class="sky"></div>
+      <div id="score">Score: 0</div>
+      <div class="character" id="character">
+        <img src="chr1.gif" alt="Character" height="150">
+      </div>
+      <div class="ground"></div>
+    </div>
+
+    <audio id="background-music" loop>
+      <source src="background.wav" type="audio/mpeg">
+    </audio>
+    <script>
+      const menuScreen = document.getElementById('menu-screen');
+      const gameContainer = document.getElementById('game-container');
+      const playButton = document.getElementById('play-button');
+      const backgroundMusic = document.getElementById('background-music');
+
+      // Start Game
+      playButton.addEventListener('click', () => {
+        menuScreen.style.display = 'none'; // Hide menu
+        gameContainer.style.display = 'block'; // Show game container
+        backgroundMusic.play(); // Start background music
+      });
+
+      // Settings Button
+      document.getElementById('settings-button').addEventListener('click', () => {
+        alert('Settings menu coming soon!');
+      });
+
+      // High Scores Button
+      document.getElementById('high-scores-button').addEventListener('click', () => {
+        alert('High scores feature coming soon!');
+      });
+
+      // Rest of the game logic remains unchanged
+      const character = document.getElementById('character');
+      const scoreElement = document.getElementById('score');
+
+      let positionY = 168;
+      let velocity = 0;
+      let isJumping = false;
+      let isGravityActive = false;
+      let score = 0;
+      let obstacleSpeed = 4;
+      let spawnInterval = 2000;
+
+      function applyGravity() {
+        if (isGravityActive) {
+          velocity -= 0.4;
+          positionY += velocity;
+          if (positionY < 0) {
+            positionY = 0;
+            velocity = 0;
+            gameOver();
+          }
+          character.style.bottom = `${positionY}px`;
+        }
+      }
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key.toLowerCase() === 'w' && !isJumping) {
+          isJumping = true;
+          velocity = 10;
+          if (!isGravityActive) isGravityActive = true;
+        }
+      });
+
+      document.addEventListener('keyup', (event) => {
+        if (event.key.toLowerCase() === 'w') isJumping = false;
+      });
+
+      function gameOver() {
+        alert('Game Over!');
+        location.reload();
+      }
+
+      function createObstacle() {
+        const obstacle = document.createElement('div');
+        obstacle.classList.add('obstacle');
+        obstacle.innerHTML = `<img src="obs.png" alt="Obstacle">`;
+        gameContainer.appendChild(obstacle);
+
+        obstacle.style.animation = `obstacleMove ${obstacleSpeed}s linear infinite`;
+
+        const collisionCheck = setInterval(() => {
+          const obstacleRect = obstacle.getBoundingClientRect();
+          const characterRect = character.getBoundingClientRect();
+          if (
+            characterRect.left < obstacleRect.right &&
+            characterRect.right > obstacleRect.left &&
+            characterRect.bottom > obstacleRect.top
+          ) {
+            clearInterval(collisionCheck);
+            gameOver();
+          }
+        }, 100);
+
+        obstacle.addEventListener('animationend', () => {
+          obstacle.remove();
+          clearInterval(collisionCheck);
+        });
+      }
+
+      setInterval(applyGravity, 20);
+      setInterval(() => {
+        score += 10;
+        scoreElement.textContent = `Score: ${score}`;
+      }, 1000);
+      setInterval(createObstacle, spawnInterval);
+    </script>
+  </body>
+</html>
