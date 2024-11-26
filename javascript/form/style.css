@@ -16,3 +16,11 @@
       color: red;
       font-size: 14px;
   }
+
+  .form-group.sucess input {
+      border: 2px solid green;
+  }
+
+  .form-group.error input {
+      border: 2px solid red;
+  }
