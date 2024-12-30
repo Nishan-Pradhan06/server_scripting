@@ -27,7 +27,7 @@ if (isset($_FILES['image'])) {
    if( move_uploaded_file($file_temp, "upload-images/" . $file_name))
    {
     echo "File upload sucessfully....";
-    echo "<img src='upload-images/$file'/>";
+    echo "<img src='upload-images/$file_name'/>";
    }
     
 }
