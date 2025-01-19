@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <style>
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <form id="registrationForm" onsubmit="return validateForm()">
+    <!-- Email -->
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email">
+    <span id="emailError" class="error"></span><br><br>
+
+    <!-- Age -->
+    <label for="age">Age:</label>
+    <input type="text" id="age" name="age">
+    <span id="ageError" class="error"></span><br><br>
+
+    <!-- Password -->
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+    <span id="passwordError" class="error"></span><br><br>
+
+    <!-- Confirm Password -->
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword">
+    <span id="confirmPasswordError" class="error"></span><br><br>
+
+    <!-- Zip Code -->
+    <label for="zipCode">Zip Code:</label>
+    <input type="text" id="zipCode" name="zipCode">
+    <span id="zipCodeError" class="error"></span><br><br>
+
+    <!-- Terms and Conditions -->
+    <input type="checkbox" id="terms" name="terms">
+    <label for="terms">I agree to the terms and conditions</label>
+    <span id="termsError" class="error"></span><br><br>
+
+    <!-- URL -->
+    <label for="url">Website URL:</label>
+    <input type="text" id="url" name="url">
+    <span id="urlError" class="error"></span><br><br>
+
+    <!-- Date -->
+    <label for="date">Date:</label>
+    <input type="date" id="date" name="date">
+    <span id="dateError" class="error"></span><br><br>
+
+    <!-- File Upload -->
+    <label for="file">Upload File (Max 2MB):</label>
+    <input type="file" id="file" name="file">
+    <span id="fileError" class="error"></span><br><br>
+
+    <!-- Country Dropdown -->
+    <label for="country">Country:</label>
+    <select id="country" name="country">
+      <option value="">Select a country</option>
+      <option value="USA">USA</option>
+      <option value="Canada">Canada</option>
+      <option value="UK">UK</option>
+    </select>
+    <span id="countryError" class="error"></span><br><br>
+
+    <button type="submit">Register</button>
+  </form>
+
+  <script src="validation.js"></script>
+</body>
+</html>
